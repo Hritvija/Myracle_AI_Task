@@ -1,0 +1,32 @@
+How to Use
+Upload Screenshots: On the web page, use the multi-image uploader to upload screenshots of the app features you want to test.
+Optional Context: Provide additional context if necessary, such as what feature you are focusing on or specific details the tool should consider.
+Generate Test Cases: Click the "Describe Testing Instructions" button to generate test cases based on the uploaded images and optional context.
+View Results: The tool will return a list of detailed test cases, each containing a description, pre-conditions, steps, and expected results.
+Prompting Strategy
+The tool uses a structured prompting strategy to ensure that the LLM generates accurate and complete test cases based on both the screenshots and any additional context provided by the user. Here's how the prompting is structured:
+
+Contextualizing the task: The LLM is first instructed to act as a QA expert who is tasked with generating testing instructions for software features.
+
+Screenshot and context input: The user provides optional text to explain the testing scenario. Screenshots are uploaded to help the model visually understand the feature being tested. The model processes each screenshot individually while considering the global context provided by the user.
+
+Output format enforcement: The LLM is instructed to generate test cases in a standardized format:
+
+Description: Clear summary of what the test case is about.
+Pre-conditions: Setup or conditions that must be fulfilled before the test.
+Testing Steps: Step-by-step guide on how to perform the test.
+Expected Result: The expected behavior or outcome if the feature works correctly.
+Iterative feedback (multi-shot prompting): The tool employs multi-shot prompting by prompting the LLM iteratively for each screenshot, improving the detail and accuracy of the generated test cases.
+
+Example Usage
+If you're testing a mobile application like Red Bus, here are some examples of what test cases might look like:
+
+Description: Test source, destination, and date selection.
+Pre-conditions: The app is installed, the user is logged in.
+Testing Steps:
+Open the Red Bus app.
+Navigate to the booking screen.
+Select a source and destination city.
+Select a journey date.
+Click "Search".
+Expected Result: The app should display available buses for the selected route and date.
