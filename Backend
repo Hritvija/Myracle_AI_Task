@@ -1,0 +1,35 @@
+pip install fastapi
+pip install openai
+pip install python-multipart
+from fastapi import FastAPI, UploadFile, File, Form
+from typing import List
+from PIL import Image
+import openai
+
+app = FastAPI()
+
+@app.post("/generate-test-cases")
+async def generate_test_cases(context: str = Form(None), screenshots: List[UploadFile] = File(...)):
+    # Process the context and screenshots
+    images = [Image.open(file.file) for file in screenshots]
+    
+    # Call the multimodal LLM for description generation
+    test_cases = describe_testing_instructions(context, images)
+    
+    return {"test_cases": test_cases}
+def describe_testing_instructions(context, images):
+    prompt = f"Describe testing instructions for the following features based on these screenshots: {context if context else 'No additional context provided'}."
+    
+    for idx, image in enumerate(images):
+        # Convert image to a suitable format or send directly if using a multimodal LLM
+        prompt += f"\nScreenshot {idx + 1}: [Image attached]."
+
+    response = openai.ChatCompletion.create(
+        model="gpt-4-vision",
+        messages=[
+            {"role": "system", "content": "You are a QA expert tasked with generating testing instructions for software features."},
+            {"role": "user", "content": prompt}
+        ]
+    )
+
+    return response['choices'][0]['message']['content']
