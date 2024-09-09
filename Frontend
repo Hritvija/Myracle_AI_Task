@@ -1,0 +1,9 @@
+<form id="test-case-form">
+  <label for="context">Context (Optional):</label>
+  <textarea id="context" placeholder="Enter any additional information"></textarea>
+
+  <label for="screenshots">Upload Screenshots:</label>
+  <input type="file" id="screenshots" multiple accept="image/*" required>
+
+  <button type="submit">Describe Testing Instructions</button>
+</form>
